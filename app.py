@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-servo_pins = [[17, 27], [22, 23], [24, 25], [5, 6]]
+servo_pins = [[17, 27], [22, 23], [24, 25], [5, 26]]
 
 GPIO.cleanup()
 GPIO.setmode(GPIO.BCM)
@@ -51,11 +51,19 @@ class Robot:
     def __init__(self, pins, servo_frequency=50, start_position=2.5):
         self.all_legs = LegsFacade(pins, servo_frequency, start_position)
 
+    def set_start_position(self):
+        self.all_legs.leg1.hip.set_servo_angle(50)
+        self.all_legs.leg1.knee.set_servo_angle(0)
+        self.all_legs.leg2.hip.set_servo_angle(38)
+        self.all_legs.leg2.knee.set_servo_angle(90)
+        self.all_legs.leg3.hip.set_servo_angle(38)
+        self.all_legs.leg3.knee.set_servo_angle(0)
+        self.all_legs.leg4.hip.set_servo_angle(48)
+        self.all_legs.leg4.knee.set_servo_angle(0)
+
 
 try:
     myRobot = Robot(servo_pins)
-    while True:
-        pass
 except KeyboardInterrupt:
     GPIO.cleanup()
 
